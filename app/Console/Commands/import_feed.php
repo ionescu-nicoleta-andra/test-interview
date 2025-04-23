@@ -42,12 +42,5 @@ class import_feed extends Command
         $import = new ImportFeed(Fetchers::UrlContentFetcher, $filename, $from);
         $import->run();
 
-        $newProducts = Produs::where('new', true)->count();
-        $stockProducts = Produs::where('stock_update', true)->count();
-        $priceProducts = Produs::where('price_update', true)->count();
-
-        Log::channel('import_feed')->info(" Imported ".$newProducts." new products ");
-        Log::channel('import_feed')->info(" Updated ".$stockProducts." stock products ");
-        Log::channel('import_feed')->info(" Updated ".$priceProducts." price products ");
     }
 }
