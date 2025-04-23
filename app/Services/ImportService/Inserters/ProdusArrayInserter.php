@@ -3,6 +3,7 @@
 namespace App\Services\ImportService\Inserters;
 
 use App\Models\Produs;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -47,8 +48,10 @@ class ProdusArrayInserter
             'pret_pj_1' => ''
         ]);
 
-        //TODO LOGGING
-//        dump($validator->errors());
+
+        foreach ($validator->errors()->all() as $error) {
+            Log::channel('import_feed')->error($error);
+        }
 
         if ($validator->fails()) {
             return false;
@@ -73,9 +76,10 @@ class ProdusArrayInserter
 
     private function makeNewProdus()
     {
+        $this->arrayToInsert['new'] = true;
         $produs = Produs::create($this->arrayToInsert);
-        $produs->new = true;
         $produs->save();
+        Log::channel('import_feed')->info("Inserted new product with sku: {$this->arrayToInsert['sku']}");
     }
 
     private function updateProdus($produs)
@@ -91,6 +95,7 @@ class ProdusArrayInserter
         $this->arrayToInsert['new'] = false;
         $produs->update($this->arrayToInsert);
         $produs->save();
+        Log::channel('import_feed')->info("Updated new product with sku: {$this->arrayToInsert['sku']}");
     }
 
 

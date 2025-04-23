@@ -3,7 +3,7 @@
 namespace App\Services\ImportService\Parsers;
 
 use App\Services\ImportService\Jobs\InsertProductJob;
-use Box\Spout\Reader\Common\Creator\ReaderEntityFactory;
+use Illuminate\Support\Facades\Log;
 
 class ParserImportXLSX
 {
@@ -21,6 +21,8 @@ class ParserImportXLSX
             }
         }
         $reader->close();
-        //dump($counterRows);
+
+        Log::channel('import_feed')->info(" Parsed ".$counterRows." lines.");
+        Log::channel('import_feed')->info(" Parser ended  at : ". date("Y-m-d H:i:s"));
     }
 }
