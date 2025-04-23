@@ -127,10 +127,10 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
 
-        'import' => [
+        'import_feed' => [
             'driver' => 'single',
             'path' => storage_path('logs/import.log'),
-            'level' => 'debug',
+
         ],
 
     ],
